@@ -1,0 +1,39 @@
+apiVersion: skaffold/v2beta12
+kind: Config
+metadata:
+  name: velib-insights
+
+build:
+  local:
+    push: false   # mettre true si tu pushes sur Docker Hub
+  artifacts:
+    # Backend Express
+    - image: yanisble/velib-insights-server
+      context: ./server
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: /app/src
+
+    # Frontend React
+    - image: yanisble/velib-insights-client
+      context: ./client
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          - src: "src/**/*.{js,jsx,ts,tsx}"
+            dest: /app/src
+
+deploy:
+  kubectl:
+    manifests:
+      - ./k8s/*.yaml
+
+profiles:
+  - name: push
+    build:
+      local:
+        push: true
