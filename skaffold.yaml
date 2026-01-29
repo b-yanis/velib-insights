@@ -11,7 +11,7 @@ build:
     - image: yanisble/velib-insights-server
       context: ./server
       docker:
-        dockerfile: Dockerfile.dev
+        dockerfile: Dockerfile
       sync:
         manual:
           - src: "src/**/*.js"
@@ -21,7 +21,7 @@ build:
     - image: yanisble/velib-insights-client
       context: ./client
       docker:
-        dockerfile: Dockerfile.dev
+        dockerfile: Dockerfile
       sync:
         manual:
           - src: "src/**/*.{js,jsx,ts,tsx}"
@@ -37,3 +37,4 @@ profiles:
     build:
       local:
         push: true
+

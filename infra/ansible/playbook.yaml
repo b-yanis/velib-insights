@@ -1,0 +1,6 @@
+- hosts: wsl
+  roles:
+    - common
+    - k3s
+    - ingress-nginx
+    - terraform

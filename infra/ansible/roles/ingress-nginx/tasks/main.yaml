@@ -1,0 +1,15 @@
+- name: Deploy ingress-nginx controller
+  shell: |
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/baremetal/deploy.yaml
+  environment:
+    KUBECONFIG: /home/{{ ansible_user_id }}/.kube/config
+
+- name: Wait for ingress-nginx controller to be Ready
+  shell: |
+    kubectl get pods -n ingress-nginx
+  register: ingress_status
+  retries: 15
+  delay: 8
+  until: >
+    'ingress-nginx-controller' in ingress_status.stdout
+    and 'Running' in ingress_status.stdout

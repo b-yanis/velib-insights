@@ -11,9 +11,9 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <Link to="/"></Link>
-        <Link to="/otherpage">Other pageeee</Link>
+        <Link to="/otherpage">Other page!</Link>
         <div>
-            <Route exact path = "/" component={Fib} />
+            /*<Route exact path = "/" component={Fib} />*/
             <Route  path = "/otherPage" component={OtherPage} />
         </div>
         <a
