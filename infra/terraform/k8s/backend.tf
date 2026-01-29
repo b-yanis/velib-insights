@@ -33,7 +33,7 @@ resource "kubernetes_service_v1" "backend_svc" {
   spec {
     selector = { app = "velib-backend" }
     port {
-      port        = 80
+      port        = 5000
       target_port = 5000
     }
     type = "ClusterIP"

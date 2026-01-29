@@ -4,7 +4,7 @@ resource "kubernetes_ingress_v1" "velib_ingress" {
     namespace = kubernetes_namespace_v1.velib.metadata[0].name
     annotations = {
       "kubernetes.io/ingress.class"               = "nginx"
-      "nginx.ingress.kubernetes.io/rewrite-target" = "/$2"
+      "nginx.ingress.kubernetes.io/rewrite-target" = "/$1"
     }
   }
 
@@ -14,14 +14,14 @@ resource "kubernetes_ingress_v1" "velib_ingress" {
 
         # BACKEND API
         path {
-          path      = "/api(/|$)(.*)"
+          path      = "/api/?(.*)"
           path_type = "ImplementationSpecific"
 
           backend {
             service {
               name = kubernetes_service_v1.backend_svc.metadata[0].name
               port {
-                number = 80
+                number = 5000
               }
             }
           }
@@ -29,7 +29,7 @@ resource "kubernetes_ingress_v1" "velib_ingress" {
 
         # FRONTEND
         path {
-          path      = "/"
+          path      = "/?(.*)"
           path_type = "ImplementationSpecific"
 
           backend {
