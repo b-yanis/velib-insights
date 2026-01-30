@@ -1,14 +1,29 @@
 #!/usr/bin/env bash
 set -e
 
-echo "▶ Enter sudo pwd to execute Ansible..."
+echo "▶ Mot de passe sudo requis"
 read -s -p "Mot de passe sudo: " SUDO_PWD
 echo
+
+# Initialise le ticket sudo
+echo "$SUDO_PWD" | sudo -S -v
+
+# Vérifier si Ansible est installé, sinon l'installer
+if ! command -v ansible &> /dev/null; then
+    echo "Ansible n'est pas installé. Installation en cours..."
+    sudo apt update
+    sudo apt install -y ansible
+fi
+
+echo "Ansible est prêt."
 
 
 echo "▶ Running Ansible..."
 cd ../ansible
 ansible-playbook -i inventory.ini playbook.yaml --extra-vars "ansible_sudo_pass=$SUDO_PWD"
+
+#clean sudo password
+unset SUDO_PWD
 
 echo "▶ Running Terraform..."
 cd ../terraform/k8s
