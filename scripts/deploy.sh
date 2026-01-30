@@ -19,7 +19,7 @@ echo "Ansible est prêt."
 
 
 echo "▶ Running Ansible..."
-cd ../ansible
+cd ../infra/ansible
 ansible-playbook -i inventory.ini playbook.yaml --extra-vars "ansible_sudo_pass=$SUDO_PWD"
 
 #clean sudo password

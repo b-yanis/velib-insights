@@ -30,7 +30,7 @@ build:
 deploy:
   kubectl:
     manifests:
-      - ./k8s/*.yaml
+      - ./infra/local-dev-k8s/*.yaml
 
 profiles:
   - name: push
