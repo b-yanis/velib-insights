@@ -5,27 +5,30 @@ metadata:
 
 build:
   local:
-    push: false   # mettre true si tu pushes sur Docker Hub
+    push: false   # Important pour le dev local sans registre distant
   artifacts:
-    # Backend Express
+    # --- Backend Express ---
     - image: yanisble/velib-insights-server
-      context: ./server
+      context: server
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
-          - src: "src/**/*.js"
-            dest: /app/src
+          # Synchronise tout le dossier src vers le dossier /app/src du container
+          - src: "src/**/*.ts"
+            dest: .
 
-    # Frontend React
+    # --- Frontend React ---
     - image: yanisble/velib-insights-client
-      context: ./client
+      context: client
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
-          - src: "src/**/*.{js,jsx,ts,tsx}"
-            dest: /app/src
+          - src: 'src/**/*.tsx'
+            dest: .
+          - src: 'index.html'
+            dest: .
 
 deploy:
   kubectl:
@@ -37,4 +40,3 @@ profiles:
     build:
       local:
         push: true
-

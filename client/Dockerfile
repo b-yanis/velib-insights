@@ -1,17 +1,14 @@
-# use base
-FROM node:16-alpine as builder
-
+# Stage 1: Build
+FROM node:20-alpine AS build-stage
 WORKDIR /app
-
-COPY ./package.json ./
-
+COPY package*.json ./
 RUN npm install
-
 COPY . .
-
 RUN npm run build
 
-FROM nginx
-EXPOSE 3000
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/build /usr/share/nginx/html
+# Stage 2: Serve
+FROM nginx:stable-alpine
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+# On remplace la config par défaut de NGINX si besoin d'un proxy
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

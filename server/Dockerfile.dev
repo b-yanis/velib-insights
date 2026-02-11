@@ -1,12 +1,15 @@
-# use base
-FROM node:16-alpine
-
+FROM node:20-alpine
 WORKDIR /app
 
-COPY ./package.json ./
-
+# Installation des dépendances (y compris devDependencies pour ts-node-dev)
+COPY package*.json ./
 RUN npm install
 
+# On copie le reste du code
 COPY . .
 
+# On expose le port de l'API
+EXPOSE 5000
+
+# On utilise le script "dev" défini dans ton package.json
 CMD ["npm", "run", "dev"]

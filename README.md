@@ -247,6 +247,31 @@ Un moyen très simple d'utiliser Skaffold est d’installer le plugin **Google C
 - Il propose de configurer et lancer Skaffold en un clic
 - Le workflow de développement devient très fluide (build, deploy, logs intégrés)
 
+#### 🛠 Dépannage & Astuces
+[!IMPORTANT]
+Les changements de code ne sont pas répercutés ?
+Si vous développez avec IntelliJ et le plugin Cloud Code, les modifications ne sont pas envoyées automatiquement aux Pods par défaut.
+
+Action requise : > 1. Allez dans Edit Configurations... de votre run Skaffold.
+2. Dans l'onglet Run, cherchez la section Watch mode.
+3. Cochez impérativement la case "On file save".
+
+Sans cette option, Skaffold ne détectera pas vos sauvegardes et l'application dans le cluster restera sur l'ancienne version du code.
+
+
+### Sans IntelliJ (CLI)
+Si vous n'utilisez pas IntelliJ, vous pouvez installer Skaffold manuellement :
+
+```bash
+curl -Lo skaffold [https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64](https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64)
+sudo install skaffold /usr/local/bin/
+```
+Lancez ensuite la commande suivante à la racine du projet :
+
+```bash
+skaffold dev
+```
+
 ### 🎯 Pourquoi ce mode ?
 
 - Cycle de développement rapide
